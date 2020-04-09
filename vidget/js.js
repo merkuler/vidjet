@@ -1,3 +1,38 @@
+const requestURL = 'https://lawyerforyou.ru/api/link'
+
+let URLs = {};
+
+function sendRequest(method, url){
+    return new Promise((resolve,reject)=>{
+        const c = new XMLHttpRequest()
+
+        c.open(method,url)
+
+        c.responseType='json'
+
+        c.onload = () =>{
+            if(c.status >=400){
+                reject (c.response)
+            } else {
+                resolve(c.response)
+            }
+        }
+
+        c.onerror = () =>{
+            reject(c.response)
+        }
+
+        c.send()
+    })
+}
+
+
+
+sendRequest('GET',requestURL)
+    .then(data => URLs = data)
+    .catch(err => console.log(err))
+
+
 let vidget = document.querySelector('.forVidget');
 
 let creatElementFunc = function  (widthpx, heightpx, leftpx, toppx, url){
@@ -30,7 +65,8 @@ let appleStoreShow = function (){
     vidget.appendChild(appleStore);
 
     appleStore.onclick = function(){
-      window.open('https:\/\/apps.apple.com\/app\/tvoi-yurist\/id1444880215', '_blank');
+      //window.open('https:\/\/apps.apple.com\/app\/tvoi-yurist\/id1444880215', '_blank');
+      window.open(URLs['ios'])
     };
 }
 
@@ -42,7 +78,8 @@ let playMarketShow = function (){
     vidget.appendChild(playMarket);
 
     playMarket.onclick = function(){
-        window.open('https:\/\/play.google.com\/store\/apps\/details?id=ru.softwarecenter.youlawyer&hl=ru', '_blank');
+       // window.open('https:\/\/play.google.com\/store\/apps\/details?id=ru.softwarecenter.youlawyer&hl=ru', '_blank');
+       window.open(URLs['android'])
     };
 }
 
@@ -74,8 +111,9 @@ let mainImageShow = function() {
 }
 
 
-mainImageShow();
 
+
+mainImageShow();
 
 
 
